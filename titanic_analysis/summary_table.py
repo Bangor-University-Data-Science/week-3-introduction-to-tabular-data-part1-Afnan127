@@ -10,23 +10,23 @@ def create_summary_table(df):
     Returns:
         pd.DataFrame: A summary DataFrame.
     """
-    # Create a summary dictionary
     summary_data = {
         'Feature Name': df.columns,
         'Data Type': df.dtypes,
-        'Has Missing Values': [df[col].isnull().sum() for col in df.columns],
-        'Number of Unique Values': [df[col].nunique() for col in df.columns]
+        'Number of Unique Values': [df[col].nunique() for col in df.columns],
+        'Missing Values': [df[col].isnull().sum() for col in df.columns],
     }
     
+    # summary DataFrame
     summary_df = pd.DataFrame(summary_data)
     
-    summary_df['Has Missing Values'] = summary_df['Missing Values'].apply(lambda x: 'Yes' if x > 0 else 'No')
-    
+    # Handle Missing Values
+    summary_df['Has Missing Values?'] = summary_df['Missing Values'].apply(lambda x: 'Yes' if x > 0 else 'No')
     summary_df.drop(columns='Missing Values', inplace=True)
     
     return summary_df
 
-# Example usage
+# Test function execution and output
 if __name__ == "__main__":
     filepath = "data/titanic.csv"  
     titanic_data = pd.read_csv(filepath)
